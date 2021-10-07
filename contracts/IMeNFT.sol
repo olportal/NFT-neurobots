@@ -40,11 +40,7 @@ contract IMeNFT is NFTokenMetadata, Ownable {
 
     event NFTDataEdited(
         uint256 tokenID,
-        bool manualConfirm,
-        address author,
-        string name,
-        string botAvatar,
-        string telegramAddress
+        NFTData _NFTData
     );
 
     event URIEdited(uint256 tokenID, string newUri);
@@ -67,33 +63,11 @@ contract IMeNFT is NFTokenMetadata, Ownable {
         address _to,
         uint256 _tokenId,
         string calldata _uri,
-        bool manualConfirm,
-        address author,
-        string calldata name,
-        string calldata botAvatar,
-        string calldata telegramAddress,
-        string calldata phrasesCount,
-        string calldata intentionsCount,
-        string calldata imageURI,
-        string calldata description,
-        string calldata category,
-        string calldata lang
+        NFTData calldata _NFTData
     ) external onlyOwner {
         _mint(_to, _tokenId);
         _setTokenUri(_tokenId, _uri);
-        NFTDatas[_tokenId] = NFTData(
-            manualConfirm,
-            author,
-            name,
-            botAvatar,
-            telegramAddress,
-            phrasesCount,
-            intentionsCount,
-            mageURI,
-            description,
-            category,
-            lang
-        );
+        NFTDatas[_tokenId] = _NFTData;
     }
 
     function editConnectedBuyer(
@@ -123,45 +97,13 @@ contract IMeNFT is NFTokenMetadata, Ownable {
 
     function editNFTData(
         uint256 tokenID,
-        bool manualConfirm,
-        address author,
-        string calldata name,
-        string calldata botAvatar,
-        string calldata telegramAddress,
-        string calldata phrasesCount,
-        string calldata intentionsCount,
-        string calldata imageURI,
-        string calldata description,
-        string calldata category,
-        string calldata lang
+        NFTData calldata _NFTData
     ) external onlyOwner {
-        NFTDatas[tokenID] = NFTData(
-            manualConfirm,
-            author,
-            name,
-            botAvatar,
-            telegramAddress,
-            phrasesCount,
-            intentionsCount,
-            mageURI,
-            description,
-            category,
-            lang
-        );
+        NFTDatas[tokenID] = _NFTData;
 
         emit NFTDataEdited(
             tokenID,
-            manualConfirm,
-            author,
-            name,
-            botAvatar,
-            telegramAddress,
-            phrasesCount,
-            intentionsCount,
-            mageURI,
-            description,
-            category,
-            lang
+            _NFTData
         );
     }
 

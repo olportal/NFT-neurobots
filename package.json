@@ -1,5 +1,5 @@
 {
-  "name": "ime_nft_kal",
+  "name": "ime_nft",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,7 +15,8 @@
     "dotenv": "^10.0.0",
     "ganache-core": "^2.13.2",
     "truffle-contract-size": "^2.0.1",
-    "truffle-plugin-verify": "^0.5.15"
+    "truffle-plugin-verify": "^0.5.15",
+    "web3": "^1.6.0"
   },
   "devDependencies": {
     "prettier": "^2.4.1",
