@@ -19,7 +19,6 @@ contract IMeNFT is NFTokenMetadata, Ownable {
         string telegramAddress;
         string phrasesCount;
         string intentionsCount;
-        string imageURI;
         string description;
         string category;
         string lang;
