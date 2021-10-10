@@ -48,7 +48,7 @@ contract IMeNFT is NFTokenMetadata, Ownable {
      * @dev Contract constructor. Sets metadata extension `name` and `symbol`.
      */
     constructor() {
-        nftName = "IME";
+        nftName = "iMe";
         nftSymbol = "IME";
     }
 
