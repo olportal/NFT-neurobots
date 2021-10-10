@@ -69,6 +69,10 @@ contract IMeNFT is NFTokenMetadata, Ownable {
         NFTDatas[_tokenId] = _NFTData;
     }
 
+    /**
+     * @dev This function creates/changes/remove a connected buyer
+     * To remove: pass default values
+     */
     function editConnectedBuyer(
         uint256 tokenID,
         uint256 buyerID,
@@ -94,6 +98,11 @@ contract IMeNFT is NFTokenMetadata, Ownable {
         );
     }
 
+    /**
+     * @dev Changes a data belonging to a nft
+     * @param tokenID The ID of a token
+     * @param NFTData The new data to write. Should be passed as an array
+     */
     function editNFTData(
         uint256 tokenID,
         NFTData calldata _NFTData
@@ -106,6 +115,11 @@ contract IMeNFT is NFTokenMetadata, Ownable {
         );
     }
 
+    /**
+     * @dev This function changes URI of token
+     * @param tokenID The ID of token
+     * @param newURI The new URI
+     */
     function editURI(uint256 tokenID, string calldata newURI)
         external
         onlyOwner

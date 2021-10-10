@@ -61,15 +61,28 @@ contract IMeMarketPlace is Ownable {
         OLCF = _OLCF;
     }
 
-    // price with decimals
+    /**
+     * @dev This function sets/changes the period pricing
+     * @param period The period as amount of days
+     * @param price The price of this period. Should be passed with decimals
+     */
     function editPeriodPrice(uint256 period, uint256 price) external onlyOwner {
         periodToPrice[period] = price;
     }
 
+    /**
+     * @dev This function changes the LIME token address
+     * @param _LIMEFeeAddress The new LIME address
+     */
     function changeLIMEFeeAddress(address _LIMEFeeAddress) external onlyOwner {
         LIMEFeeAddress = _LIMEFeeAddress;
     }
 
+    /**
+     * @dev This function returns all disposals offered by a certain address, whether expired or not
+     * @param _address The address-offeror
+     * @return An array of IDs of tokens offered by the _address
+     */
     function getDisposalsByAddress(address _address)
         external
         view
@@ -78,18 +91,35 @@ contract IMeMarketPlace is Ownable {
         return addressToIDs[_address].values();
     }
 
+    /**
+     * @dev This function returns all disposals presented at the moment on the marketplace, whether expired or not
+     * @return An array of IDs of tokens
+     */
     function getActiveOffers() external view returns (uint256[] memory) {
         return offeredNFTS.values();
     }
 
-    function _USDCPriceToLIME(uint256 USDCPrice) public view returns (uint256){
+    /**
+     * @dev Converts the price in USD to relevant price in LIME
+     */
+    function _USDCPriceToLIME(uint256 USDCPrice) private view returns (uint256){
         address[] memory path = new address[](2);
         path[0] = address(LIME);
         path[1] = address(USDC);
         return uniswapRouter.getAmountsIn(USDCPrice, path)[0];
     }
 
-    // OCLFPrice with decimals
+    /**
+     * @dev This function creates disposal. Transfers a nft from the caller and the fee
+     * @notice The caller should have approved LIME to offer nft
+     * @param tags The array of tags
+     * @param period The period chosen from allowed
+     * @param category The category
+     * @param description The description
+     * @param author The author
+     * @param OLCFPRice The price that has to paid to buy this nft. Should be passed with decimals
+     * @param tokenID The ID of a token to offer
+     */
     function offerBot(
         string[] calldata tags,
         uint256 period,
@@ -118,6 +148,11 @@ contract IMeMarketPlace is Ownable {
         addressToIDs[msg.sender].add(tokenID);
     }
 
+    /**
+     * @dev This function performs the buying operation
+     * @notice The caller should have approved OLCF tokens to buy nft
+     * @param tokenID The ID of a token to buy. Can be fetched with a #getActiveOffers()
+     */
     function buyBot(uint256 tokenID) external {
         require(offeredNFTS.contains(tokenID), "The NFT isn't offered");
 
@@ -138,6 +173,10 @@ contract IMeMarketPlace is Ownable {
         delete (disposalByID[tokenID]);
     }
 
+    /**
+     * @dev This function removes disposal. Can only be called by the offeror
+     * @param The ID of a nft to remove. Can be fetched with a #getDisposalsByAddress()
+     */
     function removeOffer(uint256 tokenID) external {
         require(offeredNFTS.contains(tokenID), "The NFT isn't offered");
 
